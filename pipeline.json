@@ -1,0 +1,130 @@
+{
+  "pipeline": {
+    "name": "ecs-flask-app-pipeline",
+    "roleArn": "arn:aws:iam::339712700588:role/service-role/AWSCodePipelineServiceRole-us-east-1-myapp-pipeline",
+    "artifactStore": {
+      "type": "S3",
+      "location": "codepipeline-us-east-1-a7ba376086c8-4963-bff9-43927fbec732"
+    },
+    "stages": [
+      {
+        "name": "Source",
+        "actions": [
+          {
+            "name": "Source",
+            "actionTypeId": {
+              "category": "Source",
+              "owner": "AWS",
+              "provider": "CodeStarSourceConnection",
+              "version": "1"
+            },
+            "runOrder": 1,
+            "configuration": {
+              "BranchName": "main",
+              "ConnectionArn": "arn:aws:codeconnections:us-east-1:339712700588:connection/fd876a7a-6b9b-483e-b14a-ff0ac1a7c323",
+              "DetectChanges": "true",
+              "FullRepositoryId": "AliRazaqNorthbay/ECS-test",
+              "OutputArtifactFormat": "CODE_ZIP"
+            },
+            "outputArtifacts": [
+              {
+                "name": "SourceArtifact"
+              }
+            ],
+            "inputArtifacts": [],
+            "region": "us-east-1",
+            "namespace": "SourceVariables"
+          }
+        ],
+        "onFailure": {
+          "result": "RETRY"
+        }
+      },
+      {
+        "name": "Build",
+        "actions": [
+          {
+            "name": "Build",
+            "actionTypeId": {
+              "category": "Build",
+              "owner": "AWS",
+              "provider": "CodeBuild",
+              "version": "1"
+            },
+            "runOrder": 1,
+            "configuration": {
+              "BatchEnabled": "false",
+              "ProjectName": "myapp-build"
+            },
+            "outputArtifacts": [
+              {
+                "name": "BuildArtifact"
+              }
+            ],
+            "inputArtifacts": [
+              {
+                "name": "SourceArtifact"
+              }
+            ],
+            "region": "us-east-1",
+            "namespace": "BuildVariables"
+          }
+        ],
+        "onFailure": {
+          "result": "RETRY"
+        }
+      },
+      {
+        "name": "Deploy",
+        "actions": [
+          {
+            "name": "Deploy",
+            "actionTypeId": {
+              "category": "Deploy",
+              "owner": "AWS",
+              "provider": "ECS",
+              "version": "1"
+            },
+            "runOrder": 1,
+            "configuration": {
+              "ClusterName": "flask-app-cluster",
+              "FileName": "imagedefinitions.json",
+              "ServiceName": "flask-app-task-service"
+            },
+            "outputArtifacts": [],
+            "inputArtifacts": [
+              {
+                "name": "BuildArtifact"
+              }
+            ],
+            "region": "us-east-1",
+            "namespace": "DeployVariables"
+          }
+        ],
+        "onFailure": {
+          "result": "ROLLBACK"
+        }
+      }
+    ],
+    "version": 1,
+    "executionMode": "QUEUED",
+    "pipelineType": "V2",
+    "triggers": [
+      {
+        "providerType": "CodeStarSourceConnection",
+        "gitConfiguration": {
+          "sourceActionName": "Source",
+          "push": [
+            {
+              "branches": {
+                "includes": [
+                  "main"
+                ]
+              }
+            }
+          ]
+        }
+      }
+    ]
+  }
+}
