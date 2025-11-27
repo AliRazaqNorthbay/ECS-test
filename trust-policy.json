@@ -4,14 +4,9 @@
     {
       "Effect": "Allow",
       "Principal": {
-        "Federated": "arn:aws:iam::55477:oidc-provider/oidc.eks.us-east-1.amazonaws.com/id/4248CDD700D6ECE209866A5D10668C3C"
+        "Service": "codebuild.amazonaws.com"
       },
-      "Action": "sts:AssumeRoleWithWebIdentity",
-      "Condition": {
-        "StringEquals": {
-          "oidc.s.us-east-1.amazonaws.com/id/8CDD700D6ECE209866A5D10668C3C:sub": "system:serviceaccount:kube-system:aws-load-balancer-controller"
-        }
-      }
+      "Action": "sts:AssumeRole"
     }
   ]
 }
