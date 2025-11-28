@@ -43,7 +43,7 @@
         "name": "Build",
         "actions": [
           {
-            "name": "Build",
+            "name": "PrepareImageDef",
             "actionTypeId": {
               "category": "Build",
               "owner": "AWS",
@@ -52,7 +52,6 @@
             },
             "runOrder": 1,
             "configuration": {
-              "BatchEnabled": "false",
               "ProjectName": "flask-app"
             },
             "outputArtifacts": [
@@ -76,7 +75,7 @@
         "name": "Deploy",
         "actions": [
           {
-            "name": "Deploy",
+            "name": "DeployToECS",
             "actionTypeId": {
               "category": "Deploy",
               "owner": "AWS",
@@ -86,8 +85,8 @@
             "runOrder": 1,
             "configuration": {
               "ClusterName": "flask-app-cluster",
-              "FileName": "imagedefinitions.json",
-              "ServiceName": "flask-app-task-service"
+              "ServiceName": "flask-app-task-service",
+              "FileName": "imagedefinitions.json"
             },
             "outputArtifacts": [],
             "inputArtifacts": [
