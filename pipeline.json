@@ -1,6 +1,6 @@
 {
   "pipeline": {
-    "name": "ecs-flask-app-pipeline",
+    "name": "myapp",
     "roleArn": "arn:aws:iam::339712700588:role/service-role/AWSCodePipelineServiceRole-us-east-1-myapp-pipeline",
     "artifactStore": {
       "type": "S3",
@@ -53,7 +53,7 @@
             "runOrder": 1,
             "configuration": {
               "BatchEnabled": "false",
-              "ProjectName": "myapp-build"
+              "ProjectName": "flask-app"
             },
             "outputArtifacts": [
               {
@@ -104,7 +104,7 @@
       }
     ],
     "version": 1,
-    "executionMode": "PIPELINE_EXECUTION",
+    "executionMode": "QUEUED",
     "pipelineType": "V2",
     "triggers": [
       {
