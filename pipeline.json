@@ -32,8 +32,7 @@
               }
             ],
             "inputArtifacts": [],
-            "region": "us-east-1",
-            "namespace": "SourceVariables"
+            "region": "us-east-1"
           }
         ],
         "onFailure": {
@@ -66,8 +65,7 @@
                 "name": "SourceArtifact"
               }
             ],
-            "region": "us-east-1",
-            "namespace": "BuildVariables"
+            "region": "us-east-1"
           }
         ],
         "onFailure": {
@@ -97,8 +95,7 @@
                 "name": "BuildArtifact"
               }
             ],
-            "region": "us-east-1",
-            "namespace": "DeployVariables"
+            "region": "us-east-1"
           }
         ],
         "onFailure": {
@@ -107,7 +104,7 @@
       }
     ],
     "version": 1,
-    "executionMode": "QUEUED",
+    "executionMode": "PIPELINE_EXECUTION",
     "pipelineType": "V2",
     "triggers": [
       {
